@@ -5,15 +5,28 @@
 */
 
 
-.animated {
-  animation-name: anim;
-  animation-duration: 5.0s;
+.animated_scale {
+  animation-name: anim_scale;
+  animation-duration: 1.0s;
   animation-iteration-count: infinite;
 }
 
-@keyframes anim {
-  0%   {background-color: red;}
-  25%  {background-color: yellow;}
-  50%  {background-color: blue;}
-  100% {background-color: green;}
+@keyframes anim_scale {
+  0% { transform: scale(1.0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.0); }
+}
+
+
+
+.animated_bold {
+  animation-name: anim_bold;
+  animation-duration: 1.0s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes anim_bold {
+  0% { font-weight: normal;}
+  50% { font-weight: bold;}
+  100% { font-weight: normal;}
 }

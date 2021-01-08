@@ -37,7 +37,12 @@ function get_rectangles() {
 }
 
 function show_rectangle(rect) {
-    rect.classList.add('animated');
+    if(rect.tagName != "INPUT") {
+        rect.classList.add('animated_scale');
+    } else {
+        rect.classList.add('animated_bold');
+    }
+    
 }
 
 function show_rectangles(rects) {
