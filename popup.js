@@ -1,6 +1,21 @@
 function main() {
     console.log("hello")
     var isEnabled = document.getElementById("toggle-switch").checked;
-    if (!isEnabled) {
+
+    /*
+    chrome.tabs.executeScript(
+    {
+        code: "var isEnabled =" + isEnabled,
+        allFrames: true,
+    },
+    function (result) {
+        chrome.tabs.executeScript(
+        { file: "content.js", allFrames: true },
+        function (result) {}
+        );
     }
+    );
+    */
+
+    console.log(isEnabled);
 }

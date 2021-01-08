@@ -145,6 +145,9 @@ function predict_rect_id(rects, x1, y1, x2, y2) {
  * Event triggered every 10ms
  */
 setInterval(function () {
+
+  //console.log(isEnabled);
+
   if (queue.length >= 20) {
     queue.shift()
   }
