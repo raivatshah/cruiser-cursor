@@ -39,7 +39,7 @@ function onMouseUpdate(e) {
 
 function get_rectangles() {
     rects = [];
-    var clickables = ["A", "BUTTON", "INPUT"];
+    var clickables = ["A", "BUTTON", "INPUT", "SUMMARY"];
     var all = document.getElementsByTagName("*");
     for(var i = 0; i < all.length; i++) {
         var is_clickable = false;
@@ -55,9 +55,13 @@ function get_rectangles() {
 }
 
 function show_rectangle(rect) {
-    if(rect.tagName != "INPUT") {
+    if(rect.tagName == "A") {
+        rect.classList.add('animated_atag');
+        
+    } else if (rect.tagName != "INPUT") {
         rect.classList.add('animated_scale');
-    } else {
+    }
+    else {
         rect.classList.add('animated_bold');
     }
 }
