@@ -2,9 +2,11 @@ console.log("Hello World");
 var x = null;
 var y = null;
 var queue = [];
+var prev_id = null;
 
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
+document.addEventListener("mousedown", onMouseClick, false);
 
 cruiserDiv = document.createElement("div");
 cruiserDiv.setAttribute("id", "cruiser");
@@ -56,106 +58,134 @@ function createLine(x1, y1, x2, y2) {
 
   return createLineElement(x, y, c, alpha);
 }
+
+function get_center(rect) {
+    coords = rect.getBoundingClientRect();
+    x0 = (coords.left + coords.right) / 2.0;
+    y0 = (coords.top + coords.bottom) / 2.0;
+    return [x0, y0];
+}
+
+function get_tangent_dist(x0, y0, a, b, c) {
+    num = Math.abs(a*x0 + b*y0 + c);
+    den = Math.sqrt(a*a + b*b);
+    return (num / den);
+}
+
+function predict_rect_id(rects, x1, y1, x2, y2) {
+    best_dist = null;
+    best_id = null;
+    a = y1 - y2;
+    b = x2 - x1;
+    c = (x1 - x2)*y1 + (y2 - y1)*x1;
+    for(var i = 0; i < rects.length; i++) {
+        temp = get_center(rects[i]);
+        x0 = temp[0];
+        y0 = temp[1];
+        dist = get_tangent_dist(x0, y0, a, b, c);
+        if((best_dist == null) || dist < best_dist) {
+            best_dist = dist;
+            best_id = i;
+        }
+    }
+    return best_id;
+}
+
 /**
  * Event triggered every 10ms
  */
 setInterval(function () {
-    if (queue.length >= 20) {
-        queue.shift()
-    }
-    queue.push([x, y])
+  if (queue.length >= 20) {
+    queue.shift()
+  }
+  queue.push([x, y])
 
-    if (queue.length > 1) {
-        var firstCoord = queue[0];
-        var lastCoord = queue[queue.length - 1];
+  if (queue.length > 1) {
+    var firstCoord = queue[0];
+    var lastCoord = queue[queue.length - 1];
 
-        var cd = document.getElementById("cruiser");
-        cd.innerHTML = "";
-        cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
-    }
+    var cd = document.getElementById("cruiser");
+    cd.innerHTML = "";
+    cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
 
-    /*
-    if(queue.length > 0) {
-        startX = queue[0][0];
-        startY = queue[0][1];
-        endX = queue[queue.length - 1][0]
-        endY = queue[queue.length - 1][1]
-        arrow = document.createElement('img');
-        document.body.appendChild(arrow);
-        arrow.src = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Red_rectangle.svg";
-        arrow.style.position = "fixed";
-        arrow.style.top = startY + 'px';
-        arrow.style.left = startX + 'px';
-        arrow.style.width = '10px';
-        arrow.style.height = '10px';
-        console.log(queue[0])
+    id = predict_rect_id(rects, firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
+    if(id != prev_id && id != null) {
+      if(prev_id != null) {
+        remove_anim(rects[prev_id]);
+      }
+      add_anim(rects[id]);
+      prev_id = id;
     }
-    */
+  }
 }, 10);
 
 function onMouseUpdate(e) {
-    x = e.pageX;
-    y = e.pageY;
-    //console.log(x, y);
+  x = e.pageX;
+  y = e.pageY;
+  //console.log(x, y);
+}
+
+function onMouseClick(e) {
+  console.log("Click");
+  console.log(prev_id);
+  if(prev_id != null) {
+    rects[prev_id].click();
+  }
 }
 
 // https://stackoverflow.com/questions/2601097/how-to-get-the-mouse-position-without-events-without-moving-the-mouse
 
 function get_rectangles() {
-    rects = [];
-    var clickables = ["A", "BUTTON", "INPUT", "SUMMARY"];
-    var all = document.getElementsByTagName("*");
-    for(var i = 0; i < all.length; i++) {
-        var is_clickable = false;
-        for(var j = 0; j < clickables.length; j++) {
-            if(all[i].tagName == clickables[j]) is_clickable = true;
-        }
-        if(is_clickable) {
-            rects.push(all[i]);
-        }
+  rects = [];
+  var clickables = ["A", "BUTTON", "INPUT", "SUMMARY"];
+  var all = document.getElementsByTagName("*");
+  for(var i = 0; i < all.length; i++) {
+    var is_clickable = false;
+    for(var j = 0; j < clickables.length; j++) {
+      if(all[i].tagName == clickables[j]) is_clickable = true;
     }
-    console.log(rects);
-    return rects;
+    if(is_clickable) {
+      rects.push(all[i]);
+    }
+  }
+  console.log(rects);
+  return rects;
 }
 
-function show_rectangle(rect) {
-    if(rect.tagName == "A") {
-        rect.classList.add('animated_atag');
-        
-    } else if (rect.tagName != "INPUT") {
-        rect.classList.add('animated_scale');
-    }
-    else {
-        rect.classList.add('animated_bold');
-    } 
+function add_anim(rect) {
+  if(rect.tagName == "A") {
+    rect.classList.add('animated_atag');
+
+  } else if (rect.tagName != "INPUT") {
+    rect.classList.add('animated_scale');
+  }
+  else {
+    rect.classList.add('animated_bold');
+  } 
 }
 
 
-function hide_rectangle(rect) {
-    if(rect.tagName == "A") {
-        rect.classList.remove('animated_atag');
-        
-    } else if (rect.tagName != "INPUT") {
-        rect.classList.remove('animated_scale');
-    }
-    else {
-        rect.classList.remove('animated_bold');
-    } 
-    
+function remove_anim(rect) {
+  if(rect.tagName == "A") {
+    rect.classList.remove('animated_atag');
+
+  } else if (rect.tagName != "INPUT") {
+    rect.classList.remove('animated_scale');
+  }
+  else {
+    rect.classList.remove('animated_bold');
+  } 
+
 }
 
-function show_rectangles(rects) {
-    for(var i = 0; i < rects.length; i++) {
-        show_rectangle(rects[i]);
-    }
+function add_anims(rects) {
+  for(var i = 0; i < rects.length; i++) {
+    add_anim(rects[i]);
+  }
 }
 
 
 rects = get_rectangles();
 console.log("Get Rectangles");
-show_rectangles(rects);
+//add_anims(rects);
 console.log("Shown Rectangles");
-console.log(rects[0]);
-//Test for remove rectangles
-
-hide_rectangle(rects[0]);

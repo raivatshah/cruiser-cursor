@@ -17,8 +17,6 @@
   100% { transform: scale(1.0); }
 }
 
-
-
 .animated_bold {
   animation-name: anim_bold;
   animation-duration: 1.0s;
