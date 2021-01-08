@@ -2,6 +2,8 @@ console.log("Hello World");
 var x = null;
 var y = null;
 var queue = [];
+const xbox = 50;
+const ybox = 50;
 
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
@@ -93,6 +95,27 @@ setInterval(function () {
     */
 }, 10);
 
+setInterval(function() {
+    if (queue.length >= 20) {
+        queue.shift()
+    }
+    queue.push([x, y])
+
+    if (queue.length > 1) {
+        var firstCoord = queue[0];
+        var lastCoord = queue[queue.length - 1];
+        
+        if((Math.abs(firstCoord[0] - lastCoord[0]) <= xbox) && (Math.abs(firstCoord[1] - lastCoord[1]) <= ybox)) {
+            console.log("IDLE");
+        } else {
+            console.log("Moving");
+        }
+
+      
+    }
+
+})
+
 function onMouseUpdate(e) {
     x = e.pageX;
     y = e.pageY;
@@ -100,6 +123,10 @@ function onMouseUpdate(e) {
 }
 
 // https://stackoverflow.com/questions/2601097/how-to-get-the-mouse-position-without-events-without-moving-the-mouse
+
+
+
+
 
 function get_rectangles() {
     rects = [];
