@@ -63,7 +63,7 @@ function show_rectangle(rect) {
     }
     else {
         rect.classList.add('animated_bold');
-    }
+    } 
 }
 
 function show_rectangles(rects) {
