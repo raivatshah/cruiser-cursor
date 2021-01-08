@@ -1,17 +1,52 @@
 console.log("Hello World");
 var x = null;
 var y = null;
+var queue = [];
+
+/**
+ * Creating the <canvas> element
+ */
+var canv = document.createElement("canvas");
+canv.setAttribute("id", "cruiser");
+canv.setAttribute("style", "border:1px solid #d3d3d3; z-index: 999");
+canv.setAttribute("height", `${screen.height}px`);
+canv.setAttribute("width", `${screen.width}px`);
+
+document.body.appendChild(canv);
+
+var c = document.getElementById("cruiser");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.moveTo(0, 0);
+ctx.lineTo(300, 150);
+ctx.stroke();
+
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
 
-var queue = [];
-
+/**
+ * Event triggered every 10ms
+ */
 setInterval(function () {
-    // console.log("x= " + x + "y = " + y);
     if (queue.length >= 20) {
         queue.shift()
     }
     queue.push([x, y])
+
+    if (queue.length > 1) {
+        var firstCoord = queue[0];
+        var lastCoord = queue[queue.length - 1];
+        var c = document.getElementById("cruiser");
+        var ctx = c.getContext("2d");
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(firstCoord[0], firstCoord[1]);
+        ctx.lineTo(lastCoord[0], lastCoord[1]);
+        ctx.stroke();
+    }
+
+    /*
     if(queue.length > 0) {
         startX = queue[0][0];
         startY = queue[0][1];
@@ -27,6 +62,7 @@ setInterval(function () {
         arrow.style.height = '10px';
         console.log(queue[0])
     }
+    */
 }, 10);
 
 function onMouseUpdate(e) {
