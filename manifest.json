@@ -19,6 +19,8 @@
       "https://*/*"
     ],
     "permissions" : [
+      "management",
+      "storage",
       "tabs",
       "https://www.google.com/*"
     ],
