@@ -1,20 +1,52 @@
 console.log("Hello World");
 var x = null;
 var y = null;
-document.addEventListener("mousemove", onMouseUpdate, false);
+//document.addEventListener("mousemove", onMouseUpdate, false);
 
-var queue = new Queue();
+//var queue = new Queue();
 
+/*
 setInterval(function () {
   console.log("x= " + x + "y = " + y);
 }, 100);
-
-document.getElementById('hplogo').classList.add('animated');
 
 function onMouseUpdate(e) {
     x = e.pageX;
     y = e.pageY;
     //console.log(x, y);
 }
+*/
 
 // https://stackoverflow.com/questions/2601097/how-to-get-the-mouse-position-without-events-without-moving-the-mouse
+
+function get_rectangles() {
+    rects = [];
+    var clickables = ["A", "BUTTON", "INPUT"];
+    var all = document.getElementsByTagName("*");
+    for(var i = 0; i < all.length; i++) {
+        var is_clickable = false;
+        for(var j = 0; j < clickables.length; j++) {
+            if(all[i].tagName == clickables[j]) is_clickable = true;
+        }
+        if(is_clickable) {
+            rects.push(all[i]);
+        }
+    }
+    console.log(rects);
+    return rects;
+}
+
+function show_rectangle(rect) {
+    rect.classList.add('animated');
+}
+
+function show_rectangles(rects) {
+    for(var i = 0; i < rects.length; i++) {
+        show_rectangle(rects[i]);
+    }
+}
+
+rects = get_rectangles();
+console.log("Get Rectangles");
+show_rectangles(rects);
+console.log("Shown Rectangles");
