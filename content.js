@@ -3,27 +3,59 @@ var x = null;
 var y = null;
 var queue = [];
 
-/**
- * Creating the <canvas> element
- */
-var canv = document.createElement("canvas");
-canv.setAttribute("id", "cruiser");
-canv.setAttribute("style", "border:1px solid #d3d3d3; z-index: 999");
-canv.setAttribute("height", `${screen.height}px`);
-canv.setAttribute("width", `${screen.width}px`);
-
-document.body.appendChild(canv);
-
-var c = document.getElementById("cruiser");
-var ctx = c.getContext("2d");
-ctx.beginPath();
-ctx.moveTo(0, 0);
-ctx.lineTo(300, 150);
-ctx.stroke();
-
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
 
+cruiserDiv = document.createElement("div");
+cruiserDiv.setAttribute("id", "cruiser");
+document.body.appendChild(cruiserDiv);
+
+function createLineElement(x, y, length, angle) {
+  var line = document.createElement("div");
+  var styles =
+    "border: 1px solid black; " +
+    "width: " +
+    length +
+    "px; " +
+    "height: 0px; " +
+    "-moz-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-webkit-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-o-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-ms-transform: rotate(" +
+    angle +
+    "rad); " +
+    "position: absolute; " +
+    "top: " +
+    y +
+    "px; " +
+    "left: " +
+    x +
+    "px; ";
+  line.setAttribute("style", styles);
+  return line;
+}
+
+function createLine(x1, y1, x2, y2) {
+  var a = x1 - x2,
+    b = y1 - y2,
+    c = Math.sqrt(a * a + b * b);
+
+  var sx = (x1 + x2) / 2,
+    sy = (y1 + y2) / 2;
+
+  var x = sx - c / 2,
+    y = sy;
+
+  var alpha = Math.PI - Math.atan2(-b, a);
+
+  return createLineElement(x, y, c, alpha);
+}
 /**
  * Event triggered every 10ms
  */
@@ -36,14 +68,10 @@ setInterval(function () {
     if (queue.length > 1) {
         var firstCoord = queue[0];
         var lastCoord = queue[queue.length - 1];
-        var c = document.getElementById("cruiser");
-        var ctx = c.getContext("2d");
-        //context.clearRect(0, 0, canvas.width, canvas.height);
-        var ctx = c.getContext("2d");
-        ctx.beginPath();
-        ctx.moveTo(firstCoord[0], firstCoord[1]);
-        ctx.lineTo(lastCoord[0], lastCoord[1]);
-        ctx.stroke();
+
+        var cd = document.getElementById("cruiser");
+        cd.innerHTML = "";
+        cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
     }
 
     /*
