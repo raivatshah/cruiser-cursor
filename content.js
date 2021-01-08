@@ -3,6 +3,8 @@ var x = null;
 var y = null;
 var queue = [];
 var prev_id = null;
+const xbox = 50;
+const ybox = 50;
 
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
@@ -108,6 +110,10 @@ setInterval(function () {
     cd.innerHTML = "";
     cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
 
+    if((Math.abs(firstCoord[0] - lastCoord[0]) <= xbox) && (Math.abs(firstCoord[1] - lastCoord[1]) <= ybox)) {
+      console.log("IDLE");
+    }
+
     id = predict_rect_id(rects, firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
     if(id != prev_id && id != null) {
       if(prev_id != null) {
@@ -183,7 +189,6 @@ function add_anims(rects) {
     add_anim(rects[i]);
   }
 }
-
 
 rects = get_rectangles();
 console.log("Get Rectangles");
