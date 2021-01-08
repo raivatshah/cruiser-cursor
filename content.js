@@ -1,17 +1,80 @@
 console.log("Hello World");
 var x = null;
 var y = null;
+var queue = [];
+
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
 
-var queue = [];
+cruiserDiv = document.createElement("div");
+cruiserDiv.setAttribute("id", "cruiser");
+document.body.appendChild(cruiserDiv);
 
+function createLineElement(x, y, length, angle) {
+  var line = document.createElement("div");
+  var styles =
+    "border: 1px solid black; " +
+    "width: " +
+    length +
+    "px; " +
+    "height: 0px; " +
+    "-moz-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-webkit-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-o-transform: rotate(" +
+    angle +
+    "rad); " +
+    "-ms-transform: rotate(" +
+    angle +
+    "rad); " +
+    "position: absolute; " +
+    "top: " +
+    y +
+    "px; " +
+    "left: " +
+    x +
+    "px; ";
+  line.setAttribute("style", styles);
+  return line;
+}
+
+function createLine(x1, y1, x2, y2) {
+  var a = x1 - x2,
+    b = y1 - y2,
+    c = Math.sqrt(a * a + b * b);
+
+  var sx = (x1 + x2) / 2,
+    sy = (y1 + y2) / 2;
+
+  var x = sx - c / 2,
+    y = sy;
+
+  var alpha = Math.PI - Math.atan2(-b, a);
+
+  return createLineElement(x, y, c, alpha);
+}
+/**
+ * Event triggered every 10ms
+ */
 setInterval(function () {
-    // console.log("x= " + x + "y = " + y);
     if (queue.length >= 20) {
         queue.shift()
     }
     queue.push([x, y])
+
+    if (queue.length > 1) {
+        var firstCoord = queue[0];
+        var lastCoord = queue[queue.length - 1];
+
+        var cd = document.getElementById("cruiser");
+        cd.innerHTML = "";
+        cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
+    }
+
+    /*
     if(queue.length > 0) {
         startX = queue[0][0];
         startY = queue[0][1];
@@ -27,6 +90,7 @@ setInterval(function () {
         arrow.style.height = '10px';
         console.log(queue[0])
     }
+    */
 }, 10);
 
 function onMouseUpdate(e) {
