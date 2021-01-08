@@ -3,14 +3,15 @@ var x = null;
 var y = null;
 document.addEventListener("mousemove", onMouseUpdate, false);
 
-var queue = new Queue(20);
+var queue = new Array(20);
 
 setInterval(function () {
   // console.log("x= " + x + "y = " + y);
-  if (queue.isFull()) {
-    queue.dequeue()
+  if (queue.length >= 20) {
+    queue.shift()
   }
-  queue.enqueue([x, y])
+  queue.push([x, y])
+  console.log(queue)
 }, 50);
 
 function onMouseUpdate(e) {
