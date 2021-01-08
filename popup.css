@@ -1,0 +1,22 @@
+html {
+    height : 300px;
+    width: 300px;
+}
+title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h6 {
+    position: relative;
+    bottom: 10px;
+}
+
+
