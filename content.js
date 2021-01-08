@@ -91,3 +91,7 @@ rects = get_rectangles();
 console.log("Get Rectangles");
 show_rectangles(rects);
 console.log("Shown Rectangles");
+console.log(rects[0]);
+//Test for remove rectangles
+
+hide_rectangle(rects[0]);
