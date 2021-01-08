@@ -3,6 +3,8 @@ var x = null;
 var y = null;
 document.addEventListener('mousemove', onMouseUpdate, false);
 
+document.getElementById('hplogo').classList.add('animated');
+
 function onMouseUpdate(e) {
     x = e.pageX;
     y = e.pageY;
