@@ -180,10 +180,22 @@ function onMouseUpdate(e) {
   //console.log(x, y);
 }
 
+function is_inside(x, y, rect) {
+  coords = rect.getBoundingClientRect();
+  return (x >= coords.left && x <= coords.right && y >= coords.top && y <= coords.bottom);
+}
+
 function onMouseClick(e) {
-  console.log("Click");
-  console.log(prev_id);
-  if(prev_id != null) {
+  var clicked = false;
+  for(var i = 0; i < rects.length; i++) {
+    if(is_inside(x, y, rects[i])) {
+      rects[i].click();
+      clicked = true;
+    }
+  }
+  if(clicked == false && prev_id != null) {
+    console.log("Click");
+    console.log(prev_id);
     rects[prev_id].click();
   }
 }
