@@ -10,9 +10,19 @@ document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
 document.addEventListener("mousedown", onMouseClick, false);
 
+/**
+ * div that stores cursor line
+ */
 cruiserDiv = document.createElement("div");
 cruiserDiv.setAttribute("id", "cruiser");
 document.body.appendChild(cruiserDiv);
+
+/**
+ * div that stores rectangle boundary
+ */
+rectDiv = document.createElement("div");
+rectDiv.setAttribute("id", "rectDiv");
+document.body.appendChild(rectDiv);
 
 function createLineElement(x, y, length, angle) {
   var line = document.createElement("div");
@@ -59,6 +69,37 @@ function createLine(x1, y1, x2, y2) {
   var alpha = Math.PI - Math.atan2(-b, a);
 
   return createLineElement(x, y, c, alpha);
+}
+
+function add_boundary(x1, y1, x2, y2) {
+    var rectangle = document.createElement("div");
+
+    var height = Math.abs(x1 - x2);
+    var width = Math.abs(y1 - y2);
+    var styles =
+        "border: 1px solid black; " +
+        "width: " +
+        width +
+        "px; " +
+        "height: " +
+        height +
+        "px; " +
+        "position: absolute; " +
+        "top: " +
+        Math.min(y1, y2) +
+        "px; " +
+        "left: " +
+        Math.min(x1, x2) +
+        "px; ";
+    rectangle.setAttribute("style", styles);
+    remove_boundary();
+    var rd = document.getElementById("rectDiv");
+    rd.appendChild(rectangle);
+}
+
+function remove_boundary() {
+     var rd = document.getElementById("rectDiv");
+     rd.innerHTML = "";
 }
 
 function get_center(rect) {
@@ -109,7 +150,7 @@ setInterval(function () {
     var cd = document.getElementById("cruiser");
     cd.innerHTML = "";
     cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
-
+    add_boundary(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
     if((Math.abs(firstCoord[0] - lastCoord[0]) <= xbox) && (Math.abs(firstCoord[1] - lastCoord[1]) <= ybox)) {
       console.log("IDLE");
     }
