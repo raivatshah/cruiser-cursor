@@ -7,8 +7,11 @@
     "default_icon": "images/icon.png",
     "default_popup": "popup.html"
   },
- 
-  "content_scripts": [{
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+    "content_scripts": [{
     "js": ["content.js"],
     "css": ["main.css"],
     "matches": [
