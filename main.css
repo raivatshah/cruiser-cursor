@@ -30,3 +30,17 @@
   50% { font-weight: bold;}
   100% { font-weight: normal;}
 }
+
+
+.animated_atag {
+  color: red;
+  animation-name: anim_atag;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  
+}
+
+@keyframes anim_atag {
+  from {color: red;}
+  to {color: blue;}
+}
