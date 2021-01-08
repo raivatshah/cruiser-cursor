@@ -7,12 +7,17 @@
     "default_icon": "images/icon.png",
     "default_popup": "popup.html"
   },
+ 
   "content_scripts": [{
     "js": ["content.js"],
     "css": ["main.css"],
     "matches": [
       "http://*/*",
       "https://*/*"
+    ],
+    "permissions" : [
+      "tabs",
+      "https://www.google.com/*"
     ],
     "run_at": "document_end"
   }]

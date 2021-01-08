@@ -5,3 +5,16 @@
   empty right now
 */
 
+
+.animated {
+  animation-name: anim;
+  animation-duration: 5.0s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes anim {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
