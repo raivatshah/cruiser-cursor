@@ -3,8 +3,8 @@ var x = null;
 var y = null;
 var queue = [];
 var prev_id = null;
-const xbox = 50;
-const ybox = 50;
+var cntr = 0;
+const LIMIT = 10;
 
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
@@ -63,31 +63,79 @@ function createLine(x1, y1, x2, y2) {
 
 function get_center(rect) {
     coords = rect.getBoundingClientRect();
-    x0 = (coords.left + coords.right) / 2.0;
-    y0 = (coords.top + coords.bottom) / 2.0;
+    x0 = ((coords.left + coords.right) / 2.0) + window.scrollX;
+    y0 = ((coords.top + coords.bottom) / 2.0) + window.scrollY;
     return [x0, y0];
 }
 
-function get_tangent_dist(x0, y0, a, b, c) {
-    num = Math.abs(a*x0 + b*y0 + c);
-    den = Math.sqrt(a*a + b*b);
-    return (num / den);
+function get_dist(x1, y1, x2, y2) {
+  dx = x2 - x1;
+  dy = y2 - y1;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function rotated_point(x1, y1, degree, x0, y0) {
+  angle = degree * (Math.PI / 180);
+  xx = ((x1 - x0) * Math.cos(angle) - (y1 - y0) * Math.sin(angle)) + x0;
+  yy = ((x1 - x0) * Math.sin(angle) + (y1 - y0) * Math.cos(angle)) + y0;
+  return [xx, yy];
+}
+
+function get_line(x1, y1, x2, y2) {
+  a = y1 - y2;
+  b = x2 - x1;
+  c = (x1 - x2)*y1 + (y2 - y1)*x1;
+  return [a, b, c];
+}
+
+function sign_of(x) {
+  if(x == 0) {
+    return 0;
+  } else if(x > 0) {
+    return 1;
+  } else if(x < 0) {
+    return -1;
+  }
+}
+
+function on_same_side(l, x1, y1, x2, y2) {
+  a = l[0], b = l[1], c = l[2];
+  k1 = a*x1 + b*y1 + c;
+  k2 = a*x2 + b*y2 + c;
+  return (sign_of(k1) == sign_of(k2));
 }
 
 function predict_rect_id(rects, x1, y1, x2, y2) {
+    if(get_dist(x1, y1, x2, y2) < LIMIT) {
+        return null;
+    }
+
     best_dist = null;
     best_id = null;
-    a = y1 - y2;
-    b = x2 - x1;
-    c = (x1 - x2)*y1 + (y2 - y1)*x1;
+    dx = x2 - x1;
+    dy = y2 - y1;
+    x3 = x2 + dx;
+    y3 = y2 + dy;
+    tmp1 = rotated_point(x3, y3, 15, x2, y2);
+    tmp2 = rotated_point(x3, y3, -15, x2, y2);
+    l1 = get_line(x2, y2, tmp1[0], tmp1[1]);
+    l2 = get_line(x2, y2, tmp2[0], tmp2[1]);
+
+    var cd = document.getElementById("cruiser");
+    cd.innerHTML = "";
+    cd.appendChild(createLine(x2, y2, tmp1[0], tmp1[1]));
+    cd.appendChild(createLine(x2, y2, tmp2[0], tmp2[1]));
+
     for(var i = 0; i < rects.length; i++) {
         temp = get_center(rects[i]);
         x0 = temp[0];
         y0 = temp[1];
-        dist = get_tangent_dist(x0, y0, a, b, c);
-        if((best_dist == null) || dist < best_dist) {
-            best_dist = dist;
-            best_id = i;
+        if(on_same_side(l1, x3, y3, x0, y0) == true && on_same_side(l2, x3, y3, x0, y0)) {
+          dist = get_dist(x2, y2, x0, y0);
+          if((best_dist == null) || dist < best_dist) {
+              best_dist = dist;
+              best_id = i;
+          }
         }
     }
     return best_id;
@@ -110,20 +158,21 @@ setInterval(function () {
     cd.innerHTML = "";
     cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
 
-    if((Math.abs(firstCoord[0] - lastCoord[0]) <= xbox) && (Math.abs(firstCoord[1] - lastCoord[1]) <= ybox)) {
-      console.log("IDLE");
-    }
-
-    id = predict_rect_id(rects, firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
-    if(id != prev_id && id != null) {
-      if(prev_id != null) {
-        remove_anim(rects[prev_id]);
+    if(cntr == 0) {
+      id = predict_rect_id(rects, firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
+      if(id != prev_id && id != null) {
+        if(prev_id != null) {
+          remove_anim(rects[prev_id]);
+        }
+        cntr = 50;
+        add_anim(rects[id]);
+        prev_id = id;
       }
-      add_anim(rects[id]);
-      prev_id = id;
+    } else {
+      cntr--;
     }
   }
-}, 10);
+}, 5);
 
 function onMouseUpdate(e) {
   x = e.pageX;

@@ -6,41 +6,14 @@
 
 
 .animated_scale {
-  animation-name: anim_scale;
-  animation-duration: 1.0s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes anim_scale {
-  0% { transform: scale(1.0); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1.0); }
+  transform: scale(1.1);
 }
 
 .animated_bold {
-  animation-name: anim_bold;
-  animation-duration: 1.0s;
-  animation-iteration-count: infinite;
+  font-weight: bold;
 }
-
-@keyframes anim_bold {
-  0% { font-weight: normal;}
-  50% { font-weight: bold;}
-  100% { font-weight: normal;}
-}
-
 
 .animated_atag {
-
-  border-bottom: 1px solid blue;
-  animation-name: anim_atag;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  
+  border-bottom: 3px solid blue;
 }
 
-@keyframes anim_atag {
-  0% { border-bottom: 1px solid; }
-  50% { border-bottom: 3px solid; }
-  100% { border-bottom: 1px solid; }
-}
