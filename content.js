@@ -1,21 +1,23 @@
 console.log("Hello World");
 var x = null;
 var y = null;
-//document.addEventListener("mousemove", onMouseUpdate, false);
+document.addEventListener("mousemove", onMouseUpdate, false);
 
-//var queue = new Queue();
+var queue = new Queue(20);
 
-/*
 setInterval(function () {
-  console.log("x= " + x + "y = " + y);
-}, 100);
+  // console.log("x= " + x + "y = " + y);
+  if (queue.isFull()) {
+    queue.dequeue()
+  }
+  queue.enqueue([x, y])
+}, 50);
 
 function onMouseUpdate(e) {
     x = e.pageX;
     y = e.pageY;
     //console.log(x, y);
 }
-*/
 
 // https://stackoverflow.com/questions/2601097/how-to-get-the-mouse-position-without-events-without-moving-the-mouse
 
