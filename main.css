@@ -34,7 +34,7 @@
 
 .animated_atag {
 
-  border-bottom: 2px solid;
+  border-bottom: 1px solid blue;
   animation-name: anim_atag;
   animation-duration: 1s;
   animation-iteration-count: infinite;
@@ -42,7 +42,7 @@
 }
 
 @keyframes anim_atag {
-  0% { border-bottom: 2px solid; }
+  0% { border-bottom: 1px solid; }
   50% { border-bottom: 3px solid; }
-  100% { border-bottom: 2px solid; }
+  100% { border-bottom: 1px solid; }
 }

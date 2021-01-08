@@ -66,11 +66,26 @@ function show_rectangle(rect) {
     } 
 }
 
+
+function hide_rectangle(rect) {
+    if(rect.tagName == "A") {
+        rect.classList.remove('animated_atag');
+        
+    } else if (rect.tagName != "INPUT") {
+        rect.classList.remove('animated_scale');
+    }
+    else {
+        rect.classList.remove('animated_bold');
+    } 
+    
+}
+
 function show_rectangles(rects) {
     for(var i = 0; i < rects.length; i++) {
         show_rectangle(rects[i]);
     }
 }
+
 
 rects = get_rectangles();
 console.log("Get Rectangles");
