@@ -1,3 +1,10 @@
+- [Cruiser Cursor](#cruiser-cursor)
+  - [For Those With Lazy Wrists](#for-those-with-lazy-wrists)
+    - [About Cruiser Cursor](#about-cruiser-cursor)
+    - [Installation](#installation)
+    - [How It Works](#how-it-works)
+    - [The Team](#the-team)
+  
 # Cruiser Cursor
 
 ## For Those With Lazy Wrists
@@ -5,7 +12,6 @@
 ![poster](images/deck.png)
 
 ------
-
 
 
 ### About Cruiser Cursor
@@ -16,11 +22,13 @@ Cruiser Cursor is a chrome extension that makes browsing the internet easier and
 
 
 
-### Want To Try It Out? Install It Here:
+### Installation
+
+Want to try it out? Let's get started!
 
 **Step 1:** On Chrome, go to the menu bar
 
-### ![Step1](https://github.com/raivatshah/cruiser-cursor/blob/master/images/tools1.png)
+![Step1](https://github.com/raivatshah/cruiser-cursor/blob/master/images/tools1.png)
 
 Click on More Tools
 
@@ -37,7 +45,7 @@ Click on More Tools
 ![Step 4](images/activ6.png)
 
 
-**Step 4:** Enable the Extension from the extension menu page. You're good to go now! Enjoy surfing the web on Cruise Cursor!
+**Step 4:** Enable the Extension from the extension menu page. You're good to go now! Enjoy surfing the web on Cruiser Cursor!
 
 ------
 
