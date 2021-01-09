@@ -1,14 +1,16 @@
-# Cruiser Control
+# Cruiser Cursor
 
 ## For Those With Lazy Wrists
+
+![poster](images/deck.png)
 
 ------
 
 
 
-### About Cruiser Control
+### About Cruiser Cursor
 
-Cruiser Control is a chrome extension that makes browsing the internet easier and more efficient. The user's cursor is tracked and the extension identifies relevant clickable objects on the webpage in the path of the cursor's trajectory in order to predict the user's next click. Cruiser Control is a productivity and accessibility tool which enables faster browsing and reduces muscle strain, especially when spending long hours surfing the web.
+Cruiser Cursor is a chrome extension that makes browsing the internet easier and more efficient. The user's cursor is tracked and the extension identifies relevant clickable objects on the webpage in the path of the cursor's trajectory in order to predict the user's next click. Cruiser Cursor is a productivity and accessibility tool which enables faster browsing and reduces muscle strain, especially when spending long hours surfing the web.
 
 ------
 
@@ -22,20 +24,20 @@ Cruiser Control is a chrome extension that makes browsing the internet easier an
 
 Click on More Tools
 
-![Step1.5](https://github.com/raivatshah/cruiser-cursor/blob/master/images/moretools2.png)
+![Step1.5](images/moretools2.png)
 
 **Step 2:** On the extensions page, make sure you have **Developer Mode** turned on.
 
-![Step2](https://github.com/raivatshah/cruiser-cursor/blob/master/images/devmode3.png)
+![Step2](images/devmode3.png)
 
 **Step 3:** Click on Load Unpacked and when prompted, select the folder which houses this GitHub repository on your computer.
 
-![Step3](https://github.com/raivatshah/cruiser-cursor/blob/master/images/load4.png)
-![Step3.5](https://github.com/raivatshah/cruiser-cursor/blob/master/images/select5.png)
-![Step 4](https://github.com/raivatshah/cruiser-cursor/blob/master/images/activ6.png)
+![Step3](images/load4.png)
+![Step3.5](images/select5.png)
+![Step 4](images/activ6.png)
 
 
-**Step 4:** Enable the Extension from the extension menu page. You're good to go now! Enjoy surfing the web on Cruise Control!
+**Step 4:** Enable the Extension from the extension menu page. You're good to go now! Enjoy surfing the web on Cruise Cursor!
 
 ------
 
