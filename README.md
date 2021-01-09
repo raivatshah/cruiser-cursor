@@ -53,7 +53,7 @@ Click on More Tools
 
 ### How It Works
 
-**TL;DR:**
+
 Once activated, the extension takes snapshots of the user's cursor at fixed intervals. Using this, over a small window, a vector is created for the direction of the cursor movement. The script goes through the website identifying all possible clickable objects such as buttons, images or links. Using information from the direction, the algorithm finds the most relevant clickable object within a fixed field of view from the cursor and animates that object. If the user likes the prediction, they can simply click at their current cursor position, taking them to the next page and expediting the browsing process!
 
 
