@@ -1,4 +1,4 @@
-console.log("Hello World");
+//console.log("Hello World");
 var x = null;
 var y = null;
 var queue = [];
@@ -8,11 +8,15 @@ const LIMIT = 10;
 
 document.addEventListener("mousemove", onMouseUpdate, false);
 document.addEventListener("mousewheel", onMouseUpdate, false);
-document.addEventListener("mousedown", onMouseClick, false);
+document.addEventListener("click", onMouseClick, false);
 
 cruiserDiv = document.createElement("div");
 cruiserDiv.setAttribute("id", "cruiser");
 document.body.appendChild(cruiserDiv);
+
+rectDiv = document.createElement("div");
+rectDiv.setAttribute("id", "rectDiv");
+document.body.appendChild(rectDiv);
 
 function createLineElement(x, y, length, angle) {
   var line = document.createElement("div");
@@ -59,6 +63,37 @@ function createLine(x1, y1, x2, y2) {
   var alpha = Math.PI - Math.atan2(-b, a);
 
   return createLineElement(x, y, c, alpha);
+}
+
+function add_boundary(x1, y1, x2, y2) {
+    var rectangle = document.createElement("div");
+
+    var height = Math.abs(y1 - y2);
+    var width = Math.abs(x1 - x2);
+    var styles =
+        "border: 2px solid red; " +
+        "width: " +
+        width +
+        "px; " +
+        "height: " +
+        height +
+        "px; " +
+        "position: absolute; " +
+        "top: " +
+        Math.min(y1, y2) +
+        "px; " +
+        "left: " +
+        Math.min(x1, x2) +
+        "px; ";
+    rectangle.setAttribute("style", styles);
+    remove_boundary();
+    var rd = document.getElementById("rectDiv");
+    rd.appendChild(rectangle);
+}
+
+function remove_boundary() {
+     var rd = document.getElementById("rectDiv");
+     rd.innerHTML = "";
 }
 
 function get_center(rect) {
@@ -121,20 +156,28 @@ function predict_rect_id(rects, x1, y1, x2, y2) {
     l1 = get_line(x2, y2, tmp1[0], tmp1[1]);
     l2 = get_line(x2, y2, tmp2[0], tmp2[1]);
 
+    /*
     var cd = document.getElementById("cruiser");
     cd.innerHTML = "";
     cd.appendChild(createLine(x2, y2, tmp1[0], tmp1[1]));
     cd.appendChild(createLine(x2, y2, tmp2[0], tmp2[1]));
+    */
 
     for(var i = 0; i < rects.length; i++) {
-        temp = get_center(rects[i]);
-        x0 = temp[0];
-        y0 = temp[1];
-        if(on_same_side(l1, x3, y3, x0, y0) == true && on_same_side(l2, x3, y3, x0, y0)) {
-          dist = get_dist(x2, y2, x0, y0);
-          if((best_dist == null) || dist < best_dist) {
-              best_dist = dist;
-              best_id = i;
+        coords = rects[i].getBoundingClientRect();
+        xx = [coords.left + window.scrollX, coords.right + window.scrollX];
+        yy = [coords.top + window.scrollY, coords.bottom + window.scrollY];
+        for(var j = 0; j < 2; j++) {
+          for(var k = 0; k < 2; k++) {
+            x0 = xx[j];
+            y0 = yy[k];
+            if(on_same_side(l1, x3, y3, x0, y0) == true && on_same_side(l2, x3, y3, x0, y0)) {
+              dist = get_dist(x2, y2, x0, y0);
+              if((best_dist == null) || dist < best_dist) {
+                  best_dist = dist;
+                  best_id = i;
+              }
+            }
           }
         }
     }
@@ -154,9 +197,11 @@ setInterval(function () {
     var firstCoord = queue[0];
     var lastCoord = queue[queue.length - 1];
 
+    /*
     var cd = document.getElementById("cruiser");
     cd.innerHTML = "";
     cd.appendChild(createLine(firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]));
+    */
 
     if(cntr == 0) {
       id = predict_rect_id(rects, firstCoord[0], firstCoord[1], lastCoord[0], lastCoord[1]);
@@ -194,8 +239,8 @@ function onMouseClick(e) {
     }
   }
   if(clicked == false && prev_id != null) {
-    console.log("Click");
-    console.log(prev_id);
+    //console.log("Click");
+    //console.log(prev_id);
     rects[prev_id].click();
   }
 }
@@ -215,11 +260,19 @@ function get_rectangles() {
       rects.push(all[i]);
     }
   }
-  console.log(rects);
+  //console.log(rects);
   return rects;
 }
 
 function add_anim(rect) {
+  /*
+  coords = rect.getBoundingClientRect();
+  x1 = (coords.left - 3) + window.scrollX;
+  x2 = (coords.right + 3) + window.scrollX;
+  y1 = (coords.top - 3) + window.scrollY;
+  y2 = (coords.bottom + 3) + window.scrollY;
+  add_boundary(x1, y1, x2, y2);
+  */
   if(rect.tagName == "A") {
     rect.classList.add('animated_atag');
 
@@ -233,6 +286,7 @@ function add_anim(rect) {
 
 
 function remove_anim(rect) {
+  //remove_boundary();
   if(rect.tagName == "A") {
     rect.classList.remove('animated_atag');
 
@@ -242,7 +296,6 @@ function remove_anim(rect) {
   else {
     rect.classList.remove('animated_bold');
   } 
-
 }
 
 function add_anims(rects) {
@@ -252,6 +305,5 @@ function add_anims(rects) {
 }
 
 rects = get_rectangles();
-console.log("Get Rectangles");
+//console.log("Get Rectangles");
 //add_anims(rects);
-console.log("Shown Rectangles");
